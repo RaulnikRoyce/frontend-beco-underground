@@ -141,10 +141,22 @@ export default {
       this.bandas = resposta.data;
     },
     async adicionarBanda() {
-      await api.post('/bandas', this.novaBanda);
-      this.novaBanda = { nome: '', genero: '', contato: '', cache_base: '' };
-      this.buscarBandas();
-    },
+  try {
+    await api.post('/bandas', this.novaBanda);
+    this.novaBanda = { nome: '', genero: '', contato: '', cache_base: '' };
+    this.buscarBandas();
+  } catch (err) {
+    // Se for erro do Zod (400), mostra o detalhe. Se for erro de login (401/403), avisa.
+    if (err.response && err.response.data.detalhes) {
+      const msgs = err.response.data.detalhes.map(d => d.mensagem).join('\n');
+      alert('Erro na validação:\n' + msgs);
+    } else if (err.response?.status === 403) {
+      alert('Acesso Negado: Você precisa ser Administrador para esta ação.');
+    } else {
+      alert('Erro ao processar a requisição.');
+    }
+  }
+},
     async deletarBanda(id) {
       if (confirm('Excluir este artista?')) {
         await api.delete(`/bandas/${id}`);
