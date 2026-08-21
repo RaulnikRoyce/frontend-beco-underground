@@ -3,7 +3,7 @@
     <div class="px-5 pb-3 pt-5">
       <RouterLink to="/" class="flex items-center gap-2.5 no-underline" @click="$emit('navegar')">
         <span class="grid h-9 w-9 place-items-center rounded-xl bg-red-600 text-sm font-extrabold text-white">B</span>
-        <span class="text-[19px] font-extrabold text-white">
+        <span class="text-[19px] font-extrabold marca-beco">
           Beco <span class="text-red-500">Underground</span>
         </span>
       </RouterLink>
@@ -21,8 +21,8 @@
         v-for="item in menu"
         :key="item.to"
         :to="item.to"
-        class="relative flex items-center gap-2.5 rounded-[10px] px-3 py-2.5 text-[13px] font-medium text-zinc-400 no-underline transition hover:bg-white/5 hover:text-white"
-        :class="{ 'bg-red-500/10 !text-red-300': ativo(item.to) }"
+        class="nav-link relative flex items-center gap-2.5 rounded-[10px] px-3 py-2.5 text-[13px] font-medium no-underline transition"
+        :class="{ 'bg-red-500/10 !text-red-500': ativo(item.to) }"
         @click="$emit('navegar')"
       >
         <span class="w-4">{{ item.icon }}</span>

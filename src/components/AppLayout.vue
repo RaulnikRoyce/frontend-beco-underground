@@ -41,6 +41,16 @@
         />
       </label>
 
+      <button
+        class="tema-btn"
+        type="button"
+        :aria-pressed="!tema.escuro"
+        :aria-label="tema.escuro ? 'Ativar tema claro' : 'Ativar tema escuro'"
+        @click="tema.alternar()"
+      >
+        {{ tema.escuro ? 'Claro' : 'Escuro' }}
+      </button>
+
       <div class="topbar-user">
         <span class="avatar">{{ auth.iniciais }}</span>
         <div class="hidden sm:block">
@@ -65,6 +75,7 @@ import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import { usePainelStore } from '../stores/painel';
 import { useToastStore } from '../stores/toast';
+import { useTemaStore } from '../stores/tema';
 import AppSidebar from './AppSidebar.vue';
 
 export default {
@@ -74,6 +85,7 @@ export default {
     const auth = useAuthStore();
     const painel = usePainelStore();
     const toast = useToastStore();
+    const tema = useTemaStore();
     const menuAberto = ref(false);
 
     function sair() {
@@ -87,7 +99,7 @@ export default {
       router.push('/eventos');
     }
 
-    return { auth, painel, menuAberto, sair, irParaEventos };
+    return { auth, painel, tema, menuAberto, sair, irParaEventos };
   },
 };
 </script>
@@ -112,7 +124,7 @@ export default {
 
 .shell {
   min-height: 100vh;
-  background: #09090b;
+  background: var(--beco-bg);
 }
 
 .dots,
@@ -124,24 +136,25 @@ export default {
 }
 
 .dots {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-image: radial-gradient(var(--beco-dot) 1px, transparent 1px);
   background-size: 26px 26px;
 }
 
 .orbs {
   background:
-    radial-gradient(ellipse 60% 50% at 10% 20%, rgba(220, 38, 38, 0.14) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 90% 80%, rgba(255, 255, 255, 0.04) 0%, transparent 55%);
+    radial-gradient(ellipse 60% 50% at 10% 20%, var(--beco-red-soft) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 80%, var(--beco-dot) 0%, transparent 55%);
 }
 
 .sidebar,
 .topbar,
 .content,
 .sidebar-mobile {
-  background: rgba(12, 12, 14, 0.78);
+  background: var(--beco-shell);
+  color: var(--beco-fg);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(220, 38, 38, 0.16);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--beco-line);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
 }
 
 .sidebar {
@@ -201,8 +214,8 @@ export default {
   justify-content: center;
   border: none;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  color: white;
+  background: var(--beco-row);
+  color: var(--beco-fg);
 }
 
 .search {
@@ -213,25 +226,39 @@ export default {
   max-width: 440px;
   padding: 8px 14px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #94a3b8;
+  background: var(--beco-row);
+  border: 1px solid var(--beco-line);
+  color: var(--beco-muted);
 }
 
 .search input {
   background: none;
   border: none;
   outline: none;
-  color: white;
+  color: var(--beco-fg);
   width: 100%;
   font-size: 13px;
+}
+
+.tema-btn {
+  flex-shrink: 0;
+  margin-left: auto;
+  border: 1px solid var(--beco-line);
+  background: var(--beco-row);
+  color: var(--beco-fg);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
 .topbar-user {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: auto;
 }
 
 .avatar {

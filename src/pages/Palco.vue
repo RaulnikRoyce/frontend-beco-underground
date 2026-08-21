@@ -26,14 +26,14 @@
           <h2 class="section-title">No palco nesta noite</h2>
           <ul class="mt-3 space-y-2">
             <li
-              v-for="item in pagina.lineup"
+              v-for="item in lineup"
               :key="`${item.horario}-${item.nome}`"
-              class="flex items-center justify-between rounded-xl border px-4 py-3 text-sm"
-              :class="item.voce ? 'border-red-500/40 bg-red-500/10' : 'border-white/10 bg-white/[0.03]'"
+              class="flex items-center justify-between rounded-xl border border-white/20 bg-zinc-900 px-4 py-3 text-sm text-zinc-100"
+              :class="item.voce ? 'border-red-500 bg-red-950/60' : ''"
             >
               <span>
-                <strong class="font-mono text-zinc-300">{{ formatarHorario(item.horario) }}</strong>
-                <span class="mx-2 text-zinc-600">·</span>
+                <strong class="font-mono text-white">{{ formatarHorario(item.horario) }}</strong>
+                <span class="mx-2 text-zinc-500">·</span>
                 {{ item.nome }}
               </span>
               <span v-if="item.voce" class="text-[10px] font-bold uppercase tracking-wide text-red-300">Você</span>
@@ -46,10 +46,10 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { buscarPaginaBanda } from '../services/publico';
-import { formatarData, formatarHorario, formatarMoeda } from '../lib/formatar';
+import { formatarData, formatarHorario, formatarMoeda, ordenarLineup } from '../lib/formatar';
 
 export default {
   setup() {
@@ -57,6 +57,8 @@ export default {
     const pagina = ref(null);
     const carregando = ref(true);
     const erro = ref('');
+
+    const lineup = computed(() => ordenarLineup(pagina.value?.lineup || []));
 
     onMounted(async () => {
       try {
@@ -68,7 +70,7 @@ export default {
       }
     });
 
-    return { pagina, carregando, erro, formatarData, formatarHorario, formatarMoeda };
+    return { pagina, lineup, carregando, erro, formatarData, formatarHorario, formatarMoeda };
   },
 };
 </script>
@@ -80,6 +82,7 @@ export default {
   place-items: center;
   padding: 24px;
   background: #09090b;
+  color: #fafafa;
 }
 
 .dots, .orbs {
@@ -106,9 +109,14 @@ export default {
   max-width: 480px;
   padding: 32px;
   border-radius: 16px;
-  background: rgba(12, 12, 14, 0.78);
+  background: rgba(12, 12, 14, 0.92);
+  color: #fafafa;
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(220, 38, 38, 0.16);
+  border: 1px solid rgba(220, 38, 38, 0.28);
   box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.palco-card :deep(.section-title) {
+  color: #a1a1aa;
 }
 </style>

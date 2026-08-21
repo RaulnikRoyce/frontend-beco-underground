@@ -30,6 +30,24 @@ export function formatarHorario(horario) {
   return hhmm ? hhmm[1] : texto;
 }
 
+/** Noite de palco: 22h vem antes de 00h (madrugada = continuação). */
+export function minutosPalco(horario) {
+  if (!horario) return Number.POSITIVE_INFINITY;
+  const hhmm = String(horario).match(/^(\d{1,2}):(\d{2})/);
+  if (!hhmm) return Number.POSITIVE_INFINITY;
+  const hora = Number(hhmm[1]);
+  const minuto = Number(hhmm[2]);
+  return (hora < 12 ? hora + 24 : hora) * 60 + minuto;
+}
+
+export function ordenarLineup(lista) {
+  return [...lista].sort((a, b) => {
+    const diff = minutosPalco(a.horario) - minutosPalco(b.horario);
+    if (diff !== 0) return diff;
+    return String(a.nome || '').localeCompare(String(b.nome || ''), 'pt-BR');
+  });
+}
+
 export function statusEvento(data) {
   const dia = dataLocal(data);
   if (!dia) return { chave: 'upcoming', label: 'Próximo' };

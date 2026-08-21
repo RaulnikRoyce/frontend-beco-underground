@@ -37,7 +37,7 @@
             <li
               v-for="evento in painel.eventos.slice(0, 4)"
               :key="evento.id"
-              class="flex cursor-pointer items-center justify-between rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3"
+              class="lineup-row flex cursor-pointer items-center justify-between rounded-xl px-4 py-3"
               @click="$router.push(`/eventos/${evento.id}`)"
             >
               <div>

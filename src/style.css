@@ -2,34 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+:root,
+html.tema-escuro {
+  color-scheme: dark;
   --beco-bg: #09090b;
+  --beco-fg: #fafafa;
+  --beco-muted: #a1a1aa;
+  --beco-card: rgba(12, 12, 14, 0.88);
+  --beco-row: #18181b;
+  --beco-row-text: #fafafa;
+  --beco-line: rgba(255, 255, 255, 0.14);
+  --beco-shell: rgba(12, 12, 14, 0.9);
   --beco-red: #dc2626;
   --beco-red-soft: rgba(220, 38, 38, 0.18);
+  --beco-dot: rgba(255, 255, 255, 0.07);
   --sidebar-w: 240px;
   --topbar-h: 60px;
   --pad: 20px;
 }
 
+html.tema-claro {
+  color-scheme: light;
+  --beco-bg: #f4f4f5;
+  --beco-fg: #18181b;
+  --beco-muted: #3f3f46;
+  --beco-card: #ffffff;
+  --beco-row: #f4f4f5;
+  --beco-row-text: #18181b;
+  --beco-line: rgba(24, 24, 27, 0.16);
+  --beco-shell: #ffffff;
+  --beco-red: #dc2626;
+  --beco-red-soft: rgba(220, 38, 38, 0.12);
+  --beco-dot: rgba(24, 24, 27, 0.06);
+}
+
 @layer base {
   body {
-    @apply font-sans text-zinc-100 antialiased;
+    @apply font-sans antialiased;
     background: var(--beco-bg);
+    color: var(--beco-fg);
     min-height: 100vh;
   }
 
   input, select, button {
     @apply font-sans;
   }
+
+  select,
+  select option {
+    color: #111827;
+    background-color: #ffffff;
+  }
 }
 
 @layer components {
   .panel-card {
-    @apply rounded-2xl border border-white/10 bg-zinc-950/40 backdrop-blur-sm;
+    @apply rounded-2xl backdrop-blur-sm;
+    border: 1px solid var(--beco-line);
+    background: var(--beco-card);
+    color: var(--beco-fg);
   }
 
   .field {
-    @apply w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-red-500/60 focus:ring-2 focus:ring-red-500/15;
+    @apply w-full rounded-xl px-4 py-3 text-sm outline-none transition;
+    border: 1px solid var(--beco-line);
+    background: var(--beco-row);
+    color: var(--beco-row-text);
+  }
+
+  select.field {
+    color: var(--beco-row-text);
+  }
+
+  .field::placeholder {
+    color: var(--beco-muted);
+  }
+
+  .field:focus {
+    border-color: rgba(220, 38, 38, 0.6);
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.15);
+  }
+
+  select.field option,
+  select option {
+    color: #111827;
+    background-color: #ffffff;
   }
 
   .btn-primary {
@@ -37,20 +94,49 @@
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center rounded-xl border border-white/10 px-4 py-2 text-xs font-semibold text-zinc-300 transition hover:border-red-500/40 hover:text-white;
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-xs font-semibold transition;
+    border: 1px solid var(--beco-line);
+    color: var(--beco-fg);
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(220, 38, 38, 0.45);
   }
 
   .section-title {
-    @apply text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500;
+    @apply text-[10px] font-bold uppercase tracking-[0.2em];
+    color: var(--beco-muted);
   }
 
   .stat-card {
-    @apply rounded-2xl border border-white/10 bg-white/[0.03] p-5;
+    @apply rounded-2xl p-5;
+    border: 1px solid var(--beco-line);
+    background: var(--beco-row);
+    color: var(--beco-fg);
+  }
+
+  .lineup-row {
+    border: 1px solid var(--beco-line);
+    background: var(--beco-row);
+    color: var(--beco-row-text);
+  }
+
+  .marca-beco {
+    color: var(--beco-fg);
+  }
+
+  .nav-link {
+    color: var(--beco-muted);
+  }
+
+  .nav-link:hover {
+    background: var(--beco-row);
+    color: var(--beco-fg);
   }
 }
 
 @media print {
-  @page { margin: 1cm; }
+  @page { margin: 12mm; }
 
   body {
     background: white !important;
