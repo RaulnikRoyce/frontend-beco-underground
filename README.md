@@ -1,5 +1,46 @@
-# Vue 3 + Vite
+# Frontend Beco Underground
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Painel Vue para produção de eventos: cronograma, artistas e custos.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Por quê
+
+Quem produz o Sábado Maldito precisa ver a noite inteira num relance: próximo evento, custo de cachê, quem sobe e a que horas. O Vue não substitui a API — ele só organiza o que a API já decide.
+
+## Stack
+
+Vue 3 · Vite · Pinia · Vue Router · Tailwind CSS · Axios
+
+## Subir local
+
+Com a API rodando em `http://localhost:3000`:
+
+```bash
+npm install
+npm run dev
+```
+
+Abra o endereço que o Vite mostrar (`5173` ou `5174`). Em desenvolvimento as chamadas `/auth`, `/eventos`, `/bandas` e `/lineup` são encaminhadas à API.
+
+Login: `admin@beco.com` / `admin123`
+
+## Telas
+
+- `/login` — acesso
+- `/` — resumo e calendário
+- `/eventos` — lista e cadastro
+- `/eventos/:id` — lineup e impressão
+- `/artistas` — catálogo e cachê base
+
+Admin escala artistas e cadastra o catálogo. Produtor vê tudo, cria eventos e só apaga os que criou.
+
+## Qualidade
+
+```bash
+npm test
+npm run lint
+npm run build
+```
+
+## Produção
+
+Defina `VITE_API_URL` com a URL da API no Render, depois `npm run build`. Detalhes em [DEPLOY.md](./DEPLOY.md).

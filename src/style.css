@@ -1,3 +1,61 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --beco-bg: #09090b;
+  --beco-red: #dc2626;
+  --beco-red-soft: rgba(220, 38, 38, 0.18);
+  --sidebar-w: 240px;
+  --topbar-h: 60px;
+  --pad: 20px;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-zinc-100 antialiased;
+    background: var(--beco-bg);
+    min-height: 100vh;
+  }
+
+  input, select, button {
+    @apply font-sans;
+  }
+}
+
+@layer components {
+  .panel-card {
+    @apply rounded-2xl border border-white/10 bg-zinc-950/40 backdrop-blur-sm;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-red-500/60 focus:ring-2 focus:ring-red-500/15;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-500 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-xl border border-white/10 px-4 py-2 text-xs font-semibold text-zinc-300 transition hover:border-red-500/40 hover:text-white;
+  }
+
+  .section-title {
+    @apply text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500;
+  }
+
+  .stat-card {
+    @apply rounded-2xl border border-white/10 bg-white/[0.03] p-5;
+  }
+}
+
+@media print {
+  @page { margin: 1cm; }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .no-print { display: none !important; }
+}
