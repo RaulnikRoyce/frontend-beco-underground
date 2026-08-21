@@ -8,6 +8,9 @@
           <p class="mt-1 text-sm text-zinc-400">{{ formatarData(evento.data) }} · {{ evento.local }}</p>
         </div>
         <div class="flex gap-2">
+          <button v-if="podeEditar" class="btn-ghost" type="button" @click="alternarEdicao">
+            {{ editando ? 'Cancelar' : 'Editar' }}
+          </button>
           <button class="btn-ghost" type="button" @click="imprimir">Imprimir</button>
           <button
             v-if="podeExcluir"
@@ -19,6 +22,20 @@
           </button>
         </div>
       </div>
+
+      <form
+        v-if="editando"
+        class="panel-card mb-6 grid gap-3 p-6 md:grid-cols-[1fr_auto_1fr_auto] print:hidden"
+        @submit.prevent="salvarEvento"
+      >
+        <label class="sr-only" for="editar-nome">Nome do evento</label>
+        <input id="editar-nome" v-model="formEvento.nome" class="field" placeholder="Nome do evento" required />
+        <label class="sr-only" for="editar-data">Data</label>
+        <input id="editar-data" v-model="formEvento.data" type="date" class="field" required />
+        <label class="sr-only" for="editar-local">Local</label>
+        <input id="editar-local" v-model="formEvento.local" class="field" placeholder="Local" required />
+        <button type="submit" class="btn-primary">Salvar</button>
+      </form>
 
       <div class="cartaz hidden print:block">
         <p class="cartaz-marca">Beco Underground</p>
@@ -46,13 +63,31 @@
             :key="item.lineup_id"
             class="lineup-row rounded-xl px-4 py-3 text-sm"
           >
-            <div class="flex items-center justify-between gap-3">
-              <span>
-                <strong class="font-mono">{{ formatarHorario(item.horario) }}</strong>
-                <span class="mx-2 opacity-40">·</span>
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <span class="flex min-w-0 flex-1 flex-wrap items-center gap-2">
+                <input
+                  v-if="auth.isAdmin"
+                  :value="horarioInput(item.horario)"
+                  type="time"
+                  class="field w-auto min-w-[7.5rem] py-2"
+                  :aria-label="`Horário de ${item.nome}`"
+                  @change="salvarHorario(item, $event)"
+                />
+                <strong v-else class="font-mono">{{ formatarHorario(item.horario) }}</strong>
+                <span class="opacity-40">·</span>
                 {{ item.nome }}
               </span>
-              <span class="font-mono text-xs text-red-500">R$ {{ formatarMoeda(item.cache) }}</span>
+              <span class="flex items-center gap-2">
+                <span class="font-mono text-xs text-red-500">R$ {{ formatarMoeda(item.cache) }}</span>
+                <button
+                  v-if="auth.isAdmin"
+                  class="btn-ghost text-red-400"
+                  type="button"
+                  @click="tirarDaLineup(item)"
+                >
+                  Tirar
+                </button>
+              </span>
             </div>
             <button
               v-if="item.token"
@@ -86,7 +121,7 @@
             </button>
             <ul v-if="listaAberta" class="artista-lista" role="listbox">
               <li
-                v-for="banda in painel.bandas"
+                v-for="banda in bandasDisponiveis"
                 :key="banda.id"
                 role="option"
                 :aria-selected="String(evento.novaBandaId) === String(banda.id)"
@@ -109,7 +144,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import { usePainelStore } from '../stores/painel';
@@ -126,6 +161,8 @@ export default {
     const painel = usePainelStore();
     const toast = useToastStore();
     const listaAberta = ref(false);
+    const editando = ref(false);
+    const formEvento = reactive({ nome: '', data: '', local: '' });
     onMounted(async () => {
       if (!painel.eventos.length) await painel.carregarTudo();
     });
@@ -142,6 +179,13 @@ export default {
       return Number(evento.value.criado_por) === Number(auth.usuarioId);
     });
 
+    const podeEditar = computed(() => podeExcluir.value);
+
+    const bandasDisponiveis = computed(() => {
+      const noPalco = new Set(lineup.value.map((item) => Number(item.banda_id)));
+      return painel.bandas.filter((banda) => !noPalco.has(Number(banda.id)));
+    });
+
     const artistaEscolhido = computed(() => {
       const id = evento.value?.novaBandaId;
       if (!id) return '';
@@ -155,6 +199,39 @@ export default {
 
     function imprimir() {
       window.print();
+    }
+
+    function horarioInput(horario) {
+      return formatarHorario(horario) === '--:--' ? '' : formatarHorario(horario);
+    }
+
+    function alternarEdicao() {
+      if (editando.value) {
+        editando.value = false;
+        return;
+      }
+      formEvento.nome = evento.value.nome;
+      formEvento.data = evento.value.data;
+      formEvento.local = evento.value.local;
+      editando.value = true;
+    }
+
+    async function salvarEvento() {
+      await painel.atualizarEvento(evento.value.id, {
+        nome: formEvento.nome,
+        data: formEvento.data,
+        local: formEvento.local,
+      });
+      editando.value = false;
+    }
+
+    function salvarHorario(item, event) {
+      painel.atualizarSlot(item.lineup_id, { horario: event.target.value || null }, evento.value.id);
+    }
+
+    function tirarDaLineup(item) {
+      if (!confirm(`Tirar ${item.nome} desta noite? O evento continua.`)) return;
+      painel.removerDoLineup(item.lineup_id, evento.value.id);
     }
 
     async function excluir() {
@@ -188,12 +265,21 @@ export default {
       evento,
       lineup,
       listaAberta,
+      editando,
+      formEvento,
       artistaEscolhido,
+      bandasDisponiveis,
       podeExcluir,
+      podeEditar,
       formatarData,
       formatarMoeda,
       formatarHorario,
+      horarioInput,
       imprimir,
+      alternarEdicao,
+      salvarEvento,
+      salvarHorario,
+      tirarDaLineup,
       excluir,
       escalar,
       escolherArtista,

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import { listarEventos, criarEvento, excluirEvento } from '../services/eventos';
+import { listarEventos, criarEvento, atualizarEvento, excluirEvento } from '../services/eventos';
 import { listarBandas, criarBanda, excluirBanda } from '../services/bandas';
-import { listarLineup, escalarArtista } from '../services/lineup';
+import { listarLineup, escalarArtista, atualizarSlot, removerSlot } from '../services/lineup';
 import { useToastStore } from './toast';
 
 const comCamposDeForm = (evento) => ({
@@ -117,6 +117,20 @@ export const usePainelStore = defineStore('painel', {
       });
     },
 
+    async atualizarEvento(id, dados) {
+      const toast = useToastStore();
+      await this.comLoading(async () => {
+        try {
+          await atualizarEvento(id, dados);
+          await this.buscarEventos();
+          toast.mostrar('Evento atualizado', 'success');
+        } catch (error) {
+          this.tratarErro(error);
+          throw error;
+        }
+      });
+    },
+
     async excluirEvento(id) {
       const toast = useToastStore();
       await this.comLoading(async () => {
@@ -175,6 +189,32 @@ export const usePainelStore = defineStore('painel', {
           evento.novoHorario = '';
           await this.buscarLineup(evento.id);
           toast.mostrar('Artista escalado', 'success');
+        } catch (error) {
+          this.tratarErro(error);
+        }
+      });
+    },
+
+    async atualizarSlot(lineupId, dados, eventoId) {
+      const toast = useToastStore();
+      await this.comLoading(async () => {
+        try {
+          await atualizarSlot(lineupId, dados);
+          await this.buscarLineup(eventoId);
+          toast.mostrar('Lineup atualizada', 'success');
+        } catch (error) {
+          this.tratarErro(error);
+        }
+      });
+    },
+
+    async removerDoLineup(lineupId, eventoId) {
+      const toast = useToastStore();
+      await this.comLoading(async () => {
+        try {
+          await removerSlot(lineupId);
+          await this.buscarLineup(eventoId);
+          toast.mostrar('Artista removido da lineup', 'success');
         } catch (error) {
           this.tratarErro(error);
         }

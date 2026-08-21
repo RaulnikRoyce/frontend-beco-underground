@@ -12,6 +12,11 @@ export async function criarEvento(payload) {
   return data;
 }
 
+export async function atualizarEvento(id, payload) {
+  const { data } = await api.patch(`/eventos/${id}`, payload);
+  return data;
+}
+
 export async function excluirEvento(id) {
   const { data } = await api.delete(`/eventos/${id}`);
   return data;
