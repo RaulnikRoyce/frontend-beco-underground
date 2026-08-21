@@ -2,6 +2,12 @@
 
 Painel Vue para produção de eventos: cronograma, artistas e custos.
 
+## Sobre este projeto
+
+Este repositório faz parte de um **projeto pessoal de estudo**. O objetivo é treinar engenharia de software em um problema real da minha atuação como **promotor de eventos**: ver a noite inteira num relance — cronograma, quem sobe e quanto custa.
+
+O Beco Underground nasceu **solo**: telas, fluxos e o primeiro código foram definidos e escritos por mim. **Perto do final**, usei o [Cursor](https://cursor.com) só como **auxílio estratégico** (decisões de fechamento, deploy e polimento) para concluir o projeto — não como autor da ideia nem do desenho inicial.
+
 ## Por quê
 
 Quem produz o Sábado Maldito precisa ver a noite inteira num relance: próximo evento, custo de cachê, quem sobe e a que horas. O Vue não substitui a API — ele só organiza o que a API já decide.

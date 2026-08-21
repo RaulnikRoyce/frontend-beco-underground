@@ -3,29 +3,24 @@
     <div class="dots" aria-hidden="true"></div>
     <div class="orbs" aria-hidden="true"></div>
 
-    <section class="brand hidden lg:flex" aria-label="Sobre o painel">
+    <section class="brand hidden lg:flex" aria-label="Sobre o cadastro">
       <div>
         <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-red-400">Produção independente</p>
         <h1 class="mt-4 max-w-md text-5xl font-extrabold leading-tight">
-          Gerencie eventos com fluidez
+          Entre como produtor
         </h1>
         <p class="mt-4 max-w-sm text-sm leading-relaxed text-zinc-400">
-          Cronograma, artistas e cachês em um painel pensado para o Beco Underground.
+          A conta nasce como produtor: você vê eventos e cria os seus. Só o admin escala artista e gerencia a equipe.
         </p>
-        <ul class="mt-8 space-y-3 text-sm text-zinc-300">
-          <li>Lineup com horário e custo</li>
-          <li>Cadastro de artistas e cachê base</li>
-          <li>Impressão do cronograma de palco</li>
-        </ul>
       </div>
       <p class="text-xs uppercase tracking-[0.25em] text-zinc-600">Sábado Maldito</p>
     </section>
 
     <section class="form-side">
-      <form class="form-card" aria-describedby="login-status" @submit.prevent="entrar">
+      <form class="form-card" aria-describedby="cadastro-status" @submit.prevent="enviar">
         <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-red-400 lg:hidden">Beco Underground</p>
-        <h2 class="mt-2 text-3xl font-bold">Bem-vindo de volta</h2>
-        <p class="mt-2 text-sm text-zinc-400">Use suas credenciais de produção.</p>
+        <h2 class="mt-2 text-3xl font-bold">Criar conta</h2>
+        <p class="mt-2 text-sm text-zinc-400">Cadastro de produtor. O admin pode desativar depois.</p>
 
         <label class="mt-8 block" for="email">
           <span class="mb-2 block text-xs font-semibold text-zinc-400">E-mail</span>
@@ -35,34 +30,45 @@
             type="email"
             autocomplete="email"
             class="field"
-            placeholder="admin@beco.com"
             required
           />
         </label>
         <label class="mt-4 block" for="senha">
-          <span class="mb-2 block text-xs font-semibold text-zinc-400">Senha</span>
+          <span class="mb-2 block text-xs font-semibold text-zinc-400">Senha (mín. 6)</span>
           <input
             id="senha"
             v-model="senha"
             type="password"
-            autocomplete="current-password"
+            autocomplete="new-password"
             class="field"
-            placeholder="••••••••"
+            minlength="6"
+            required
+          />
+        </label>
+        <label class="mt-4 block" for="confirma">
+          <span class="mb-2 block text-xs font-semibold text-zinc-400">Confirmar senha</span>
+          <input
+            id="confirma"
+            v-model="confirma"
+            type="password"
+            autocomplete="new-password"
+            class="field"
+            minlength="6"
             required
           />
         </label>
 
-        <p id="login-status" class="mt-4 text-sm text-red-400" role="alert" aria-live="polite">
+        <p id="cadastro-status" class="mt-4 text-sm text-red-400" role="alert" aria-live="polite">
           {{ erro }}
         </p>
 
         <button type="submit" class="btn-primary mt-6 w-full" :disabled="carregando" :aria-busy="carregando">
-          {{ carregando ? 'Entrando…' : 'Entrar' }}
+          {{ carregando ? 'Cadastrando…' : 'Cadastrar' }}
         </button>
 
         <p class="mt-6 text-center text-sm text-zinc-500">
-          Produtor?
-          <RouterLink to="/cadastro" class="font-semibold text-red-400 no-underline hover:text-red-300">Criar conta</RouterLink>
+          Já tem conta?
+          <RouterLink to="/login" class="font-semibold text-red-400 no-underline hover:text-red-300">Entrar</RouterLink>
         </p>
       </form>
     </section>
@@ -72,28 +78,31 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { login } from '../services/auth';
-import { useAuthStore } from '../stores/auth';
+import { registrar } from '../services/auth';
 import { useToastStore } from '../stores/toast';
 
 export default {
   setup() {
     const router = useRouter();
-    const auth = useAuthStore();
     const toast = useToastStore();
     const email = ref('');
     const senha = ref('');
+    const confirma = ref('');
     const erro = ref('');
     const carregando = ref(false);
 
-    async function entrar() {
-      carregando.value = true;
+    async function enviar() {
       erro.value = '';
+      if (senha.value !== confirma.value) {
+        erro.value = 'As senhas não coincidem.';
+        return;
+      }
+
+      carregando.value = true;
       try {
-        const dados = await login(email.value, senha.value);
-        auth.salvarLogin(dados.token, dados.perfil, dados.email, dados.id);
-        toast.mostrar('Login realizado', 'success');
-        router.push('/');
+        await registrar(email.value, senha.value);
+        toast.mostrar('Conta criada. Entre com e-mail e senha.', 'success');
+        router.push('/login');
       } catch (err) {
         if (err.response?.status === 400 && err.response.data.detalhes) {
           erro.value = err.response.data.detalhes.map((d) => d.mensagem).join(' · ');
@@ -102,14 +111,14 @@ export default {
         } else if (!err.response) {
           erro.value = 'Não foi possível conectar na API.';
         } else {
-          erro.value = 'E-mail ou senha incorretos.';
+          erro.value = 'Não foi possível cadastrar.';
         }
       } finally {
         carregando.value = false;
       }
     }
 
-    return { email, senha, erro, carregando, entrar };
+    return { email, senha, confirma, erro, carregando, enviar };
   },
 };
 </script>

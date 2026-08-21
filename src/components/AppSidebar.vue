@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 
@@ -61,11 +62,15 @@ export default {
   setup() {
     const route = useRoute();
     const auth = useAuthStore();
-    const menu = [
-      { to: '/', label: 'Início', icon: '◆' },
-      { to: '/eventos', label: 'Eventos', icon: '▣' },
-      { to: '/artistas', label: 'Artistas', icon: '♪' },
-    ];
+    const menu = computed(() => {
+      const itens = [
+        { to: '/', label: 'Início', icon: '◆' },
+        { to: '/eventos', label: 'Eventos', icon: '▣' },
+        { to: '/artistas', label: 'Artistas', icon: '♪' },
+      ];
+      if (auth.isAdmin) itens.push({ to: '/equipe', label: 'Equipe', icon: '◉' });
+      return itens;
+    });
 
     function ativo(path) {
       if (path === '/') return route.path === '/';
