@@ -32,10 +32,13 @@ Login: `admin@beco.com` / `admin123`
 ## Telas
 
 - `/login` — acesso
+- `/cadastro` — conta de produtor
+- `/p/:token` — página da banda (sem login)
 - `/` — resumo e calendário
 - `/eventos` — lista e cadastro
-- `/eventos/:id` — lineup e impressão
+- `/eventos/:id` — lineup, impressão e link da banda
 - `/artistas` — catálogo e cachê base
+- `/equipe` — admin: ativar, bloquear e excluir produtores
 
 Admin escala artistas e cadastra o catálogo. Produtor vê tudo, cria eventos e só apaga os que criou.
 

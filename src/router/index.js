@@ -4,6 +4,7 @@ import { useAuthStore } from '../stores/auth';
 const routes = [
   { path: '/login', name: 'login', component: () => import('../pages/Login.vue'), meta: { publica: true } },
   { path: '/cadastro', name: 'cadastro', component: () => import('../pages/Cadastro.vue'), meta: { publica: true } },
+  { path: '/p/:token', name: 'palco', component: () => import('../pages/Palco.vue'), meta: { publica: true } },
   { path: '/', name: 'dashboard', component: () => import('../pages/Dashboard.vue') },
   { path: '/eventos', name: 'eventos', component: () => import('../pages/Eventos.vue') },
   { path: '/eventos/:id', name: 'evento', component: () => import('../pages/EventoDetalhe.vue') },

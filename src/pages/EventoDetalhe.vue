@@ -39,14 +39,24 @@
           <li
             v-for="item in lineup"
             :key="item.lineup_id"
-            class="flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950/40 px-4 py-3 text-sm print:border-b print:border-gray-300 print:bg-white"
+            class="rounded-xl border border-white/10 bg-zinc-950/40 px-4 py-3 text-sm print:border-b print:border-gray-300 print:bg-white"
           >
-            <span class="print:text-black">
-              <strong class="font-mono text-zinc-300 print:text-black">{{ formatarHorario(item.horario) }}</strong>
-              <span class="mx-2 text-zinc-600">·</span>
-              {{ item.nome }}
-            </span>
-            <span class="font-mono text-xs text-emerald-400 print:hidden">R$ {{ formatarMoeda(item.cache) }}</span>
+            <div class="flex items-center justify-between gap-3">
+              <span class="print:text-black">
+                <strong class="font-mono text-zinc-300 print:text-black">{{ formatarHorario(item.horario) }}</strong>
+                <span class="mx-2 text-zinc-600">·</span>
+                {{ item.nome }}
+              </span>
+              <span class="font-mono text-xs text-emerald-400 print:hidden">R$ {{ formatarMoeda(item.cache) }}</span>
+            </div>
+            <button
+              v-if="item.token"
+              class="btn-ghost mt-2 print:hidden"
+              type="button"
+              @click="copiarLink(item)"
+            >
+              Copiar link da banda
+            </button>
           </li>
           <li v-if="!lineup.length" class="rounded-xl border border-dashed border-white/10 px-4 py-8 text-center text-sm text-zinc-500 print:hidden">
             Nenhum artista escalado ainda.
@@ -81,6 +91,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import { usePainelStore } from '../stores/painel';
 import AppLayout from '../components/AppLayout.vue';
+import { useToastStore } from '../stores/toast';
 import { formatarData, formatarMoeda, formatarHorario } from '../lib/formatar';
 
 export default {
@@ -90,6 +101,7 @@ export default {
     const router = useRouter();
     const auth = useAuthStore();
     const painel = usePainelStore();
+    const toast = useToastStore();
     onMounted(async () => {
       if (!painel.eventos.length) await painel.carregarTudo();
     });
@@ -120,7 +132,17 @@ export default {
       painel.adicionarAoLineup(evento.value);
     }
 
-    return { auth, painel, evento, lineup, podeExcluir, formatarData, formatarMoeda, formatarHorario, imprimir, excluir, escalar };
+    async function copiarLink(item) {
+      const url = `${window.location.origin}/p/${item.token}`;
+      try {
+        await navigator.clipboard.writeText(url);
+        toast.mostrar('Link copiado. Manda no WhatsApp da banda.', 'success');
+      } catch {
+        toast.mostrar(url, 'info');
+      }
+    }
+
+    return { auth, painel, evento, lineup, podeExcluir, formatarData, formatarMoeda, formatarHorario, imprimir, excluir, escalar, copiarLink };
   },
 };
 </script>
