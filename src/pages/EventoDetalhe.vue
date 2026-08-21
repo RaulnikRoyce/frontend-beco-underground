@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import { usePainelStore } from '../stores/painel';
@@ -90,8 +90,6 @@ export default {
     const router = useRouter();
     const auth = useAuthStore();
     const painel = usePainelStore();
-    const imprimindo = ref(false);
-
     onMounted(async () => {
       if (!painel.eventos.length) await painel.carregarTudo();
     });
@@ -109,11 +107,7 @@ export default {
     });
 
     function imprimir() {
-      imprimindo.value = true;
-      setTimeout(() => {
-        window.print();
-        imprimindo.value = false;
-      }, 150);
+      window.print();
     }
 
     async function excluir() {
@@ -126,7 +120,7 @@ export default {
       painel.adicionarAoLineup(evento.value);
     }
 
-    return { auth, painel, evento, lineup, podeExcluir, imprimindo, formatarData, formatarMoeda, formatarHorario, imprimir, excluir, escalar };
+    return { auth, painel, evento, lineup, podeExcluir, formatarData, formatarMoeda, formatarHorario, imprimir, excluir, escalar };
   },
 };
 </script>
