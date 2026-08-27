@@ -32,14 +32,7 @@
     </nav>
 
     <div class="mt-auto border-t border-white/5 p-2.5">
-      <button
-        type="button"
-        class="flex w-full items-center gap-2.5 rounded-[10px] px-3 py-2.5 text-left text-[13px] font-medium text-zinc-400 transition hover:bg-red-500/10 hover:text-red-400"
-        @click="$emit('sair')"
-      >
-        Sair da conta
-      </button>
-      <div class="mt-1.5 flex items-center gap-2.5 rounded-[10px] border border-white/5 bg-white/[0.03] px-3 py-2.5">
+      <div class="mb-1.5 flex items-center gap-2.5 rounded-[10px] border border-white/5 bg-white/[0.03] px-3 py-2.5">
         <span class="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-zinc-700 to-red-600 text-[11px] font-bold">
           {{ auth.iniciais }}
         </span>
@@ -48,6 +41,14 @@
           <p class="text-[10px] font-bold text-red-400">{{ auth.perfilLabel }}</p>
         </div>
       </div>
+      <TrocarSenha />
+      <button
+        type="button"
+        class="flex w-full items-center gap-2.5 rounded-[10px] px-3 py-2.5 text-left text-[13px] font-medium text-zinc-400 transition hover:bg-red-500/10 hover:text-red-400"
+        @click="$emit('sair')"
+      >
+        Sair da conta
+      </button>
     </div>
   </div>
 </template>
@@ -56,8 +57,10 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
+import TrocarSenha from './TrocarSenha.vue';
 
 export default {
+  components: { TrocarSenha },
   emits: ['sair', 'navegar'],
   setup() {
     const route = useRoute();

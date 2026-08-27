@@ -2,6 +2,11 @@
 
 Painel Vue para produção de eventos: cronograma, artistas e custos.
 
+**Demo:** [https://gestaobeco.netlify.app/](https://gestaobeco.netlify.app/)  
+**API:** [api-beco-underground](https://github.com/RaulnikRoyce/api-beco-underground) · **Painel:** este repositório
+
+Produção: este Vue no Netlify, API no Render, MySQL na Aiven.
+
 ## Sobre este projeto
 
 Este repositório faz parte de um **projeto pessoal de estudo**. O objetivo é treinar engenharia de software em um problema real da minha atuação como **promotor de eventos**: ver a noite inteira num relance — cronograma, quem sobe e quanto custa.
@@ -27,7 +32,7 @@ npm run dev
 
 Abra o endereço que o Vite mostrar (`5173` ou `5174`). Em desenvolvimento as chamadas `/auth`, `/eventos`, `/bandas` e `/lineup` são encaminhadas à API.
 
-Login: `admin@beco.com` / `admin123`
+Login local: use a conta criada com `npm run seed:admin` na API (valores no `.env` dela). Depois do primeiro login, **Trocar senha** no perfil (barra lateral). Em produção, crie uma conta de produtor em `/cadastro` — não use a senha do seed no ar.
 
 ## Telas
 
@@ -38,7 +43,9 @@ Login: `admin@beco.com` / `admin123`
 - `/eventos` — lista e cadastro
 - `/eventos/:id` — lineup, impressão e link da banda
 - `/artistas` — catálogo e cachê base
-- `/equipe` — admin: ativar, bloquear e excluir produtores
+- `/equipe` — admin: ativar, bloquear, redefinir senha de **outro** usuário e excluir produtores
+
+Qualquer logado troca a **própria** senha no perfil (precisa da senha atual). Não há “esqueci minha senha”: o admin redefine a dos outros na Equipe; a própria conta só pelo perfil.
 
 Admin escala artistas e cadastra o catálogo. Produtor vê tudo, cria eventos e só apaga os que criou.
 
@@ -52,4 +59,4 @@ npm run build
 
 ## Produção
 
-Defina `VITE_API_URL` com a URL da API no Render, depois `npm run build`. Detalhes em [DEPLOY.md](./DEPLOY.md).
+No Netlify, `VITE_API_URL=https://api-beco-underground.onrender.com`. Detalhes em [DEPLOY.md](./DEPLOY.md).

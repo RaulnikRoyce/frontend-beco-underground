@@ -24,3 +24,13 @@ export async function excluirUsuario(id) {
   const { data } = await api.delete(`/auth/usuarios/${id}`);
   return data;
 }
+
+export async function redefinirSenha(id, senha) {
+  const { data } = await api.patch(`/auth/usuarios/${id}/senha`, { senha });
+  return data;
+}
+
+export async function trocarPropriaSenha(senhaAtual, senha) {
+  const { data } = await api.patch('/auth/senha', { senha_atual: senhaAtual, senha });
+  return data;
+}

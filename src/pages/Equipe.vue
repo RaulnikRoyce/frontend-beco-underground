@@ -2,7 +2,7 @@
   <AppLayout>
     <div class="mb-6">
       <h1 class="text-3xl font-extrabold">Equipe</h1>
-      <p class="mt-1 text-sm text-zinc-400">Produtores se cadastram sozinhos. Você ativa, bloqueia ou remove.</p>
+      <p class="mt-1 text-sm text-zinc-400">Produtores se cadastram sozinhos. Você ativa, bloqueia, redefine senha ou remove.</p>
     </div>
 
     <p v-if="erro" class="mb-4 rounded-xl border border-red-500/30 bg-red-950/40 px-4 py-3 text-sm text-red-200" role="alert">
@@ -29,11 +29,17 @@
           <button class="btn-ghost" type="button" @click="alternar(usuario)">
             {{ usuario.ativo ? 'Bloquear' : 'Ativar' }}
           </button>
+          <button class="btn-ghost" type="button" @click="novaSenha(usuario)">
+            Nova senha
+          </button>
           <button class="btn-ghost text-red-400 hover:text-red-300" type="button" @click="remover(usuario)">
             Excluir
           </button>
         </div>
-        <p v-else class="text-xs text-zinc-500">Sua conta</p>
+        <div v-else class="min-w-[14rem]">
+          <p class="mb-2 text-xs text-zinc-500">Sua conta</p>
+          <TrocarSenha />
+        </div>
       </article>
     </div>
 
@@ -50,12 +56,13 @@
 import { onMounted, ref } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import { useToastStore } from '../stores/toast';
-import { listarUsuarios, alterarUsuario, excluirUsuario } from '../services/auth';
+import { listarUsuarios, alterarUsuario, excluirUsuario, redefinirSenha } from '../services/auth';
 import AppLayout from '../components/AppLayout.vue';
 import EmptyState from '../components/EmptyState.vue';
+import TrocarSenha from '../components/TrocarSenha.vue';
 
 export default {
-  components: { AppLayout, EmptyState },
+  components: { AppLayout, EmptyState, TrocarSenha },
   setup() {
     const auth = useAuthStore();
     const toast = useToastStore();
@@ -85,6 +92,21 @@ export default {
       }
     }
 
+    async function novaSenha(usuario) {
+      const senha = window.prompt(`Nova senha para ${usuario.email} (mín. 6 caracteres)`);
+      if (senha === null) return;
+      if (senha.trim().length < 6) {
+        toast.mostrar('Senha deve ter no mínimo 6 caracteres', 'error');
+        return;
+      }
+      try {
+        await redefinirSenha(usuario.id, senha);
+        toast.mostrar('Senha redefinida. Passe a nova senha para a pessoa.', 'success');
+      } catch (err) {
+        toast.mostrar(err.response?.data?.erro || 'Não foi possível redefinir a senha', 'error');
+      }
+    }
+
     async function remover(usuario) {
       if (!confirm(`Excluir ${usuario.email}? Essa pessoa não entra mais.`)) return;
       try {
@@ -98,7 +120,7 @@ export default {
 
     onMounted(carregar);
 
-    return { auth, usuarios, carregando, erro, alternar, remover };
+    return { auth, usuarios, carregando, erro, alternar, novaSenha, remover };
   },
 };
 </script>
