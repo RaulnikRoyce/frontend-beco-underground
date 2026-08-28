@@ -22,7 +22,7 @@
         />
       </label>
       <label class="block" :for="idNova">
-        <span class="mb-1 block text-[10px] font-semibold text-zinc-500">Nova senha (mín. 6)</span>
+        <span class="mb-1 block text-[10px] font-semibold text-zinc-500">Nova senha, no mínimo 6 caracteres</span>
         <input
           :id="idNova"
           v-model="senhaNova"

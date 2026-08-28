@@ -4,7 +4,8 @@
     <div class="orbs" aria-hidden="true"></div>
 
     <main class="palco-card">
-      <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-red-400">Beco Underground</p>
+      <img src="/logo-beco.png" alt="Beco Underground Produções" class="h-16 w-16 rounded-full object-cover" width="64" height="64" />
+      <p class="mt-3 text-[10px] font-bold uppercase tracking-[0.25em] text-red-400">Beco Underground</p>
 
       <p v-if="carregando" class="mt-8 text-sm text-zinc-400">Carregando seu horário…</p>
       <p v-else-if="erro" class="mt-8 text-sm text-red-400" role="alert">{{ erro }}</p>
@@ -19,7 +20,7 @@
           <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-red-300">Você toca</p>
           <p class="mt-2 font-mono text-4xl font-extrabold text-white">{{ formatarHorario(pagina.voce.horario) }}</p>
           <p class="mt-2 text-lg font-semibold">{{ pagina.voce.nome }}</p>
-          <p class="mt-3 font-mono text-sm text-emerald-400">Cachê combinado: R$ {{ formatarMoeda(pagina.voce.cache) }}</p>
+          <p class="mt-3 font-mono text-sm text-emerald-400">Cachê combinado R$ {{ formatarMoeda(pagina.voce.cache) }}</p>
         </section>
 
         <section class="mt-8">

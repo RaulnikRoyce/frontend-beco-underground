@@ -5,12 +5,13 @@
 
     <section class="brand hidden lg:flex" aria-label="Sobre o cadastro">
       <div>
-        <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-red-400">Produção independente</p>
+        <img src="/logo-beco.png" alt="Beco Underground Produções" class="h-28 w-28 rounded-full object-cover" width="112" height="112" />
+        <p class="mt-6 text-[10px] font-bold uppercase tracking-[0.25em] text-red-400">Produção independente</p>
         <h1 class="mt-4 max-w-md text-5xl font-extrabold leading-tight">
           Entre como produtor
         </h1>
         <p class="mt-4 max-w-sm text-sm leading-relaxed text-zinc-400">
-          A conta nasce como produtor: você vê eventos e cria os seus. Só o admin escala artista e gerencia a equipe.
+          A conta fica com perfil de produtor, então você vê eventos e cria os seus. Só o admin escala artista e gerencia a equipe.
         </p>
       </div>
       <p class="text-xs uppercase tracking-[0.25em] text-zinc-600">Sábado Maldito</p>
@@ -18,7 +19,7 @@
 
     <section class="form-side">
       <form class="form-card" aria-describedby="cadastro-status" @submit.prevent="enviar">
-        <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-red-400 lg:hidden">Beco Underground</p>
+        <img src="/logo-beco.png" alt="Beco Underground Produções" class="mb-4 h-16 w-16 rounded-full object-cover lg:hidden" width="64" height="64" />
         <h2 class="mt-2 text-3xl font-bold">Criar conta</h2>
         <p class="mt-2 text-sm text-zinc-400">Cadastro de produtor. O admin pode desativar depois.</p>
 
@@ -34,7 +35,7 @@
           />
         </label>
         <label class="mt-4 block" for="senha">
-          <span class="mb-2 block text-xs font-semibold text-zinc-400">Senha (mín. 6)</span>
+          <span class="mb-2 block text-xs font-semibold text-zinc-400">Senha, no mínimo 6 caracteres</span>
           <input
             id="senha"
             v-model="senha"

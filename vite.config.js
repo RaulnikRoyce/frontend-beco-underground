@@ -1,13 +1,17 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import UnoCSS from 'unocss/vite';
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), UnoCSS()],
   test: {
     environment: 'node',
     include: ['src/**/*.test.js']
   },
   server: {
+    watch: {
+      ignored: ['**/logo-beco.png']
+    },
     proxy: {
       '/auth': 'http://127.0.0.1:3000',
       '/bandas': 'http://127.0.0.1:3000',

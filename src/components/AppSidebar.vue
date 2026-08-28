@@ -2,7 +2,7 @@
   <div class="flex h-full flex-col">
     <div class="px-5 pb-3 pt-5">
       <RouterLink to="/" class="flex items-center gap-2.5 no-underline" @click="$emit('navegar')">
-        <span class="grid h-9 w-9 place-items-center rounded-xl bg-red-600 text-sm font-extrabold text-white">B</span>
+        <img src="/logo-beco.png" alt="Beco Underground Produções" class="h-10 w-10 rounded-full object-cover" width="40" height="40" />
         <span class="text-[19px] font-extrabold marca-beco">
           Beco <span class="text-red-500">Underground</span>
         </span>

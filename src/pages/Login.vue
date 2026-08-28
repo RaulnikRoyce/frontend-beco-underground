@@ -5,12 +5,13 @@
 
     <section class="brand hidden lg:flex" aria-label="Sobre o painel">
       <div>
-        <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-red-400">Produção independente</p>
+        <img src="/logo-beco.png" alt="Beco Underground Produções" class="h-28 w-28 rounded-full object-cover" width="112" height="112" />
+        <p class="mt-6 text-[10px] font-bold uppercase tracking-[0.25em] text-red-400">Produção independente</p>
         <h1 class="mt-4 max-w-md text-5xl font-extrabold leading-tight">
-          Gerencie eventos com fluidez
+          Organize cronograma, artistas e cachê
         </h1>
         <p class="mt-4 max-w-sm text-sm leading-relaxed text-zinc-400">
-          Cronograma, artistas e cachês em um painel pensado para o Beco Underground.
+          Painel do Beco Underground para lineup, horário e custo de cada noite.
         </p>
         <ul class="mt-8 space-y-3 text-sm text-zinc-300">
           <li>Lineup com horário e custo</li>
@@ -23,7 +24,7 @@
 
     <section class="form-side">
       <form class="form-card" aria-describedby="login-status" @submit.prevent="entrar">
-        <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-red-400 lg:hidden">Beco Underground</p>
+        <img src="/logo-beco.png" alt="Beco Underground Produções" class="mb-4 h-16 w-16 rounded-full object-cover lg:hidden" width="64" height="64" />
         <h2 class="mt-2 text-3xl font-bold">Bem-vindo de volta</h2>
         <p class="mt-2 text-sm text-zinc-400">Use suas credenciais de produção.</p>
 
@@ -35,7 +36,7 @@
             type="email"
             autocomplete="email"
             class="field"
-            placeholder="admin@beco.com"
+            placeholder="seu e-mail"
             required
           />
         </label>

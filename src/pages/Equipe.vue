@@ -2,7 +2,7 @@
   <AppLayout>
     <div class="mb-6">
       <h1 class="text-3xl font-extrabold">Equipe</h1>
-      <p class="mt-1 text-sm text-zinc-400">Produtores se cadastram sozinhos. Você ativa, bloqueia, redefine senha ou remove.</p>
+      <p class="mt-1 text-sm text-zinc-400">Produtores se cadastram sozinhos. Você ativa, bloqueia, redefine senha ou remove a conta.</p>
     </div>
 
     <p v-if="erro" class="mb-4 rounded-xl border border-red-500/30 bg-red-950/40 px-4 py-3 text-sm text-red-200" role="alert">

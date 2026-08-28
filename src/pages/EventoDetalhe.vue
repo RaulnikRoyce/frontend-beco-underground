@@ -38,6 +38,7 @@
       </form>
 
       <div class="cartaz hidden print:block">
+        <img src="/logo-beco.png" alt="Beco Underground Produções" class="cartaz-logo" width="72" height="72" />
         <p class="cartaz-marca">Beco Underground</p>
         <h1 class="cartaz-titulo">{{ evento.nome }}</h1>
         <p class="cartaz-meta">{{ formatarData(evento.data) }} · {{ evento.local }}</p>
@@ -292,6 +293,13 @@ export default {
 <style scoped>
 .cartaz {
   max-width: 720px;
+}
+
+.cartaz-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 9999px;
+  object-fit: cover;
 }
 
 .cartaz-marca {

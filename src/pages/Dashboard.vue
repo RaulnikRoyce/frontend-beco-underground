@@ -4,7 +4,7 @@
       <div>
         <h1 class="text-3xl font-extrabold">{{ auth.saudacao }}, {{ auth.primeiroNome }}</h1>
         <p class="mt-1 text-sm text-zinc-400">
-          {{ painel.eventos.length ? `Você tem ${proximos.length} evento${proximos.length === 1 ? '' : 's'} na frente.` : 'Nenhum evento cadastrado ainda. Que tal criar o primeiro?' }}
+          {{ painel.eventos.length ? `Você tem ${proximos.length} evento${proximos.length === 1 ? '' : 's'} na frente.` : 'Nenhum evento cadastrado ainda. Cadastre o primeiro em Eventos.' }}
         </p>
       </div>
       <RouterLink to="/eventos" class="btn-primary no-underline">Criar evento</RouterLink>
