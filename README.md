@@ -4,7 +4,7 @@
 
 Painel Vue para produção de eventos, cronograma, artistas e custos.
 
-**Demo** [https://gestaobeco.netlify.app/](https://gestaobeco.netlify.app/)  
+**Demo** [https://demo.raulnikroyce.dev/](https://demo.raulnikroyce.dev/)  
 **API** [api-beco-underground](https://github.com/RaulnikRoyce/api-beco-underground) · **Painel** este repositório
 
 Produção usa este Vue no Netlify, a API no Render e MySQL na Aiven.
