@@ -50,7 +50,26 @@
         </ol>
       </div>
 
-      <section class="panel-card p-6 print:hidden">
+      <div class="mb-4 flex gap-2 print:hidden">
+        <button
+          type="button"
+          class="btn-ghost"
+          :class="{ 'border-red-500 text-red-400': abaAtiva === 'lineup' }"
+          @click="abaAtiva = 'lineup'"
+        >
+          Lineup
+        </button>
+        <button
+          type="button"
+          class="btn-ghost"
+          :class="{ 'border-red-500 text-red-400': abaAtiva === 'ingressos' }"
+          @click="abaAtiva = 'ingressos'"
+        >
+          Ingressos
+        </button>
+      </div>
+
+      <section v-show="abaAtiva === 'lineup'" class="panel-card p-6 print:hidden">
         <div class="mb-4 flex items-center justify-between">
           <h2 class="section-title">Lineup</h2>
           <span class="rounded-lg bg-red-500/10 px-3 py-1 font-mono text-xs text-red-400 print:hidden">
@@ -137,6 +156,12 @@
           <button type="submit" class="btn-primary">Add</button>
         </form>
       </section>
+
+      <IngressosAba
+        v-show="abaAtiva === 'ingressos'"
+        :evento-id="evento.id"
+        :admin="auth.isAdmin"
+      />
     </div>
 
     <p v-else-if="painel.carregando" class="text-sm text-zinc-500">Carregando evento…</p>
@@ -150,11 +175,12 @@ import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import { usePainelStore } from '../stores/painel';
 import AppLayout from '../components/AppLayout.vue';
+import IngressosAba from '../components/IngressosAba.vue';
 import { useToastStore } from '../stores/toast';
 import { formatarData, formatarMoeda, formatarHorario, ordenarLineup } from '../lib/formatar';
 
 export default {
-  components: { AppLayout },
+  components: { AppLayout, IngressosAba },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -163,6 +189,7 @@ export default {
     const toast = useToastStore();
     const listaAberta = ref(false);
     const editando = ref(false);
+    const abaAtiva = ref('lineup');
     const formEvento = reactive({ nome: '', data: '', local: '' });
     onMounted(async () => {
       if (!painel.eventos.length) await painel.carregarTudo();
@@ -267,6 +294,7 @@ export default {
       lineup,
       listaAberta,
       editando,
+      abaAtiva,
       formEvento,
       artistaEscolhido,
       bandasDisponiveis,
