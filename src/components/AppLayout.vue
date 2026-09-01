@@ -297,6 +297,7 @@ export default {
   bottom: var(--pad);
   padding: 24px 28px;
   overflow-y: auto;
+  overflow-x: hidden;
   border-radius: 16px;
   animation: fadeIn 0.35s ease both;
 }
@@ -325,6 +326,10 @@ export default {
     top: calc(12px + var(--topbar-h) + 12px);
     bottom: 12px;
   }
+}
+
+@media (max-width: 640px) {
+  .content { padding: 16px 14px; }
 }
 
 @media print {

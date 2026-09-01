@@ -9,7 +9,13 @@ Painel no ar [https://demo.raulnikroyce.dev/](https://demo.raulnikroyce.dev/)
 VITE_API_URL=https://api-beco-underground.onrender.com
 ```
 
-3. Na API (Render), `CORS_ORIGIN` deve ser exatamente `https://demo.raulnikroyce.dev`.
+3. Na API (Render), `CORS_ORIGIN` deve incluir painel e loja:
+
+```text
+https://demo.raulnikroyce.dev,https://ingressosbeco.raulnikroyce.dev
+```
+
+Loja de ingressos (repo `frontend-beco-ingressos`): https://ingressosbeco.raulnikroyce.dev
 
 No build de produção, `VITE_API_URL` precisa apontar para a API no Render. Valor omitido deixa o painel falando com `localhost:3000`.
 

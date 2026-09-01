@@ -32,11 +32,30 @@ html.tema-claro {
   --beco-dot: rgba(24, 24, 27, 0.06);
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   @apply font-sans antialiased;
+  margin: 0;
   background: var(--beco-bg);
   color: var(--beco-fg);
   min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Sem reset do Uno, ul/dd chegam com padding e margem do browser e desalinham as linhas. */
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+dl, dd {
+  margin: 0;
 }
 
 input, select, button {
@@ -54,6 +73,8 @@ select option {
   border: 1px solid var(--beco-line);
   background: var(--beco-card);
   color: var(--beco-fg);
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .field {
@@ -61,6 +82,36 @@ select option {
   border: 1px solid var(--beco-line);
   background: var(--beco-row);
   color: var(--beco-row-text);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.form-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
+}
+
+/* Sem isso o conteúdo intrínseco do input (datetime-local principalmente) estoura a coluna. */
+.form-grid > *,
+.form-grid .field {
+  min-width: 0;
+}
+
+.form-grid input[type="datetime-local"],
+.form-grid input[type="date"],
+.form-grid input[type="time"] {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .form-grid.form-grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form-grid.form-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 select.field {

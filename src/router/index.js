@@ -10,6 +10,7 @@ const routes = [
   { path: '/eventos/:id', name: 'evento', component: () => import('../pages/EventoDetalhe.vue') },
   { path: '/artistas', name: 'artistas', component: () => import('../pages/Artistas.vue') },
   { path: '/equipe', name: 'equipe', component: () => import('../pages/Equipe.vue'), meta: { admin: true } },
+  { path: '/checkin', name: 'checkin', component: () => import('../pages/Checkin.vue'), meta: { admin: true } },
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ];
 

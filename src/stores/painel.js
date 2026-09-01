@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { listarEventos, criarEvento, atualizarEvento, excluirEvento } from '../services/eventos';
-import { listarBandas, criarBanda, excluirBanda } from '../services/bandas';
+import { listarBandas, criarBanda, excluirBanda, atualizarBanda } from '../services/bandas';
 import { listarLineup, escalarArtista, atualizarSlot, removerSlot } from '../services/lineup';
 import { useToastStore } from './toast';
 
@@ -167,6 +167,20 @@ export const usePainelStore = defineStore('painel', {
           toast.mostrar('Artista excluído', 'success');
         } catch (error) {
           this.tratarErro(error);
+        }
+      });
+    },
+
+    async atualizarBanda(id, dados) {
+      const toast = useToastStore();
+      await this.comLoading(async () => {
+        try {
+          await atualizarBanda(id, { ...dados, cache_base: Number(dados.cache_base) });
+          await this.buscarBandas();
+          toast.mostrar('Artista atualizado', 'success');
+        } catch (error) {
+          this.tratarErro(error);
+          throw error;
         }
       });
     },

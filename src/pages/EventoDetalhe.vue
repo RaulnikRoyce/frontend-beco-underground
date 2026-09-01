@@ -25,7 +25,7 @@
 
       <form
         v-if="editando"
-        class="panel-card mb-6 grid gap-3 p-6 md:grid-cols-[1fr_auto_1fr_auto] print:hidden"
+        class="panel-card form-grid form-grid-2 mb-6 p-6 print:hidden"
         @submit.prevent="salvarEvento"
       >
         <label class="sr-only" for="editar-nome">Nome do evento</label>
@@ -33,8 +33,8 @@
         <label class="sr-only" for="editar-data">Data</label>
         <input id="editar-data" v-model="formEvento.data" type="date" class="field" required />
         <label class="sr-only" for="editar-local">Local</label>
-        <input id="editar-local" v-model="formEvento.local" class="field" placeholder="Local" required />
-        <button type="submit" class="btn-primary">Salvar</button>
+        <input id="editar-local" v-model="formEvento.local" class="field sm:col-span-2" placeholder="Local" required />
+        <button type="submit" class="btn-primary sm:col-span-2">Salvar</button>
       </form>
 
       <div class="cartaz hidden print:block">
@@ -125,10 +125,10 @@
 
         <form
           v-if="auth.isAdmin"
-          class="mt-4 grid gap-2 sm:grid-cols-[1fr_auto_auto] print:hidden"
+          class="form-grid form-grid-2 mt-4 print:hidden"
           @submit.prevent="escalar"
         >
-          <div class="artista-picker">
+          <div class="artista-picker sm:col-span-2">
             <button
               id="escalar-artista"
               class="field text-left"
@@ -153,7 +153,7 @@
           </div>
           <label class="sr-only" for="escalar-horario">Horário</label>
           <input id="escalar-horario" v-model="evento.novoHorario" type="time" class="field" />
-          <button type="submit" class="btn-primary">Add</button>
+          <button type="submit" class="btn-primary">Escalar</button>
         </form>
       </section>
 

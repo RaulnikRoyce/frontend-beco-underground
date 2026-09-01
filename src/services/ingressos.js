@@ -60,7 +60,57 @@ export async function excluirLote(eventoId, loteId) {
   return data;
 }
 
+export async function gerarLotesSugeridos(eventoId) {
+  const { data } = await api.post(`/eventos/${eventoId}/lotes/gerar-sugeridos`);
+  return data;
+}
+
 export async function emitirCortesia(eventoId, payload) {
   const { data } = await api.post(`/eventos/${eventoId}/ingressos/cortesia`, payload);
+  return data;
+}
+
+export async function emitirVendaPorta(eventoId, payload) {
+  const { data } = await api.post(`/eventos/${eventoId}/ingressos/porta`, payload);
+  return data;
+}
+
+export async function listarCompradores(eventoId, params = {}) {
+  const { data } = await api.get(`/eventos/${eventoId}/ingressos/compradores`, { params });
+  return data;
+}
+
+export function urlCompradoresCsv(eventoId, params = {}) {
+  const qs = new URLSearchParams(params).toString();
+  return `/eventos/${eventoId}/ingressos/compradores.csv${qs ? `?${qs}` : ''}`;
+}
+
+export async function baixarCompradoresCsv(eventoId, params = {}) {
+  const { data } = await api.get(urlCompradoresCsv(eventoId, params), { responseType: 'blob' });
+  return data;
+}
+
+export async function abrirListaPorta(eventoId) {
+  const { data } = await api.get(`/eventos/${eventoId}/ingressos/lista-porta.pdf`, { responseType: 'blob' });
+  return data;
+}
+
+export async function checkin(codigo) {
+  const { data } = await api.post(`/ingressos/checkin/${codigo}`);
+  return data;
+}
+
+export async function obterFinanceiroDashboard() {
+  const { data } = await api.get('/ingressos/dashboard/financeiro');
+  return data;
+}
+
+export async function criarCupom(eventoId, payload) {
+  const { data } = await api.post(`/eventos/${eventoId}/ingressos/cupons`, payload);
+  return data;
+}
+
+export async function cancelarPedido(eventoId, codigo) {
+  const { data } = await api.post(`/eventos/${eventoId}/ingressos/pedidos/${codigo}/cancelar`);
   return data;
 }

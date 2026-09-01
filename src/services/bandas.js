@@ -14,3 +14,8 @@ export async function excluirBanda(id) {
   const { data } = await api.delete(`/bandas/${id}`);
   return data;
 }
+
+export async function atualizarBanda(id, payload) {
+  const { data } = await api.patch(`/bandas/${id}`, payload);
+  return data;
+}

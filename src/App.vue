@@ -1,11 +1,11 @@
 <template>
   <div>
     <div
-      v-if="toast.itens.length"
+      v-if="toastItens.length"
       class="fixed right-4 top-4 z-[300] flex w-full max-w-sm flex-col gap-2 print:hidden"
     >
       <div
-        v-for="item in toast.itens"
+        v-for="item in toastItens"
         :key="item.id"
         class="rounded-xl border px-4 py-3 text-sm backdrop-blur"
         :class="classeToast(item.tipo)"
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { storeToRefs } from 'pinia';
 import { usePainelStore } from './stores/painel';
 import { useToastStore } from './stores/toast';
 
@@ -36,6 +37,7 @@ export default {
   setup() {
     const painel = usePainelStore();
     const toast = useToastStore();
+    const { itens: toastItens } = storeToRefs(toast);
 
     function classeToast(tipo) {
       const map = {
@@ -46,7 +48,7 @@ export default {
       return map[tipo] || map.info;
     }
 
-    return { painel, toast, classeToast };
+    return { painel, toastItens, classeToast };
   },
 };
 </script>

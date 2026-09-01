@@ -9,14 +9,14 @@
 
     <section class="panel-card mb-6 p-6">
       <h2 class="section-title">Novo evento</h2>
-      <form class="mt-4 grid gap-3 md:grid-cols-[1fr_auto_1fr_auto]" @submit.prevent="criar">
+      <form class="form-grid form-grid-2 mt-4" @submit.prevent="criar">
         <label class="sr-only" for="evento-nome">Nome do evento</label>
         <input id="evento-nome" v-model="form.nome" class="field" placeholder="Nome do evento" required />
         <label class="sr-only" for="evento-data">Data</label>
         <input id="evento-data" v-model="form.data" type="date" class="field" required />
         <label class="sr-only" for="evento-local">Local</label>
-        <input id="evento-local" v-model="form.local" class="field" placeholder="Local" required />
-        <button type="submit" class="btn-primary">Cadastrar</button>
+        <input id="evento-local" v-model="form.local" class="field sm:col-span-2" placeholder="Local" required />
+        <button type="submit" class="btn-primary sm:col-span-2">Cadastrar</button>
       </form>
     </section>
 

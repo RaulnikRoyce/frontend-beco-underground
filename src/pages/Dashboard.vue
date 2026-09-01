@@ -87,21 +87,30 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import { usePainelStore } from '../stores/painel';
 import AppLayout from '../components/AppLayout.vue';
 import EmptyState from '../components/EmptyState.vue';
 import { formatarData, formatarMoeda, statusEvento } from '../lib/formatar';
+import { obterFinanceiroDashboard } from '../services/ingressos';
 
 export default {
   components: { AppLayout, EmptyState },
   setup() {
     const auth = useAuthStore();
     const painel = usePainelStore();
+    const financeiro = ref(null);
 
-    onMounted(() => {
-      if (!painel.eventos.length) painel.carregarTudo();
+    onMounted(async () => {
+      if (!painel.eventos.length) await painel.carregarTudo();
+      if (auth.isAdmin) {
+        try {
+          financeiro.value = await obterFinanceiroDashboard();
+        } catch {
+          financeiro.value = null;
+        }
+      }
     });
 
     const proximos = computed(() =>
@@ -113,12 +122,23 @@ export default {
 
     const proximo = computed(() => proximos.value[0] || null);
 
-    const stats = computed(() => [
-      { label: 'Eventos', valor: painel.eventos.length },
-      { label: 'Artistas', valor: painel.bandas.length },
-      { label: 'Próximos', valor: proximos.value.length },
-      { label: 'Cachê total', valor: `R$ ${formatarMoeda(painel.custoTotalGeral)}` },
-    ]);
+    const stats = computed(() => {
+      const base = [
+        { label: 'Eventos', valor: painel.eventos.length },
+        { label: 'Artistas', valor: painel.bandas.length },
+        { label: 'Próximos', valor: proximos.value.length },
+        { label: 'Cachê total', valor: `R$ ${formatarMoeda(painel.custoTotalGeral)}` },
+      ];
+      if (auth.isAdmin && financeiro.value) {
+        return [
+          { label: 'Receita ingressos', valor: `R$ ${formatarMoeda(financeiro.value.receita_ingressos)}` },
+          { label: 'Resultado', valor: `R$ ${formatarMoeda(financeiro.value.resultado)}` },
+          ...base.slice(0, 2),
+          { label: 'Próximos', valor: proximos.value.length },
+        ];
+      }
+      return base;
+    });
 
     const agora = new Date();
     const mesNome = agora.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
@@ -155,7 +175,7 @@ export default {
       return 'bg-white/5 text-zinc-300';
     }
 
-    return { auth, painel, proximos, proximo, stats, mesNome, calendario, formatarData, formatarMoeda, statusEvento, celulaClasse, badge };
+    return { auth, painel, financeiro, proximos, proximo, stats, mesNome, calendario, formatarData, formatarMoeda, statusEvento, celulaClasse, badge };
   },
 };
 </script>

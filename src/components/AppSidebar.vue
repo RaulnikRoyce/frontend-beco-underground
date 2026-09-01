@@ -71,7 +71,10 @@ export default {
         { to: '/eventos', label: 'Eventos', icon: '▣' },
         { to: '/artistas', label: 'Artistas', icon: '♪' },
       ];
-      if (auth.isAdmin) itens.push({ to: '/equipe', label: 'Equipe', icon: '◉' });
+      if (auth.isAdmin) {
+        itens.push({ to: '/checkin', label: 'Check-in', icon: '▸' });
+        itens.push({ to: '/equipe', label: 'Equipe', icon: '◉' });
+      }
       return itens;
     });
 
