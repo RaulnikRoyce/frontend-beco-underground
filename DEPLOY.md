@@ -2,7 +2,7 @@
 
 Painel no ar [https://demo.raulnikroyce.dev/](https://demo.raulnikroyce.dev/)
 
-1. No Netlify, conecte `frontend-beco-underground`. Build `npm run build`. Publish `dist`.
+1. No Vercel, conecte `frontend-beco-underground`. Build `npm run build`. Output `dist`.
 2. Em **Environment**, cadastre a variável abaixo.
 
 ```

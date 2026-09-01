@@ -7,7 +7,7 @@ Painel Vue para produção de eventos, cronograma, artistas, custos e ingressos.
 **Demo** [https://demo.raulnikroyce.dev/](https://demo.raulnikroyce.dev/) · **Loja** [https://ingressosbeco.raulnikroyce.dev](https://ingressosbeco.raulnikroyce.dev)  
 **API** [api-beco-underground](https://github.com/RaulnikRoyce/api-beco-underground) · **Ingressos** [frontend-beco-ingressos](https://github.com/RaulnikRoyce/frontend-beco-ingressos) · **Painel** este repositório
 
-Produção usa este Vue no Netlify, a API no Render e MySQL na Aiven.
+Produção usa este Vue no Vercel, a API no Render e MySQL na Aiven.
 
 ## Sobre este projeto
 
@@ -62,4 +62,4 @@ npm run build
 
 ## Produção
 
-No Netlify, `VITE_API_URL=https://api-beco-underground.onrender.com`. Detalhes em [DEPLOY.md](./DEPLOY.md).
+No Vercel, `VITE_API_URL=https://api-beco-underground.onrender.com`. Detalhes em [DEPLOY.md](./DEPLOY.md).
