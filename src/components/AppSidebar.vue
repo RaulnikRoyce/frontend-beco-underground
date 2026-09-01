@@ -31,6 +31,19 @@
       </RouterLink>
     </nav>
 
+    <div class="px-2.5 pt-3">
+      <a
+        :href="lojaUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="loja-link flex items-center justify-center gap-2 rounded-[10px] border border-red-500/30 bg-red-500/10 px-3 py-2.5 text-[13px] font-semibold text-red-300 no-underline transition hover:border-red-500/50 hover:bg-red-500/20 hover:text-red-200"
+        @click="$emit('navegar')"
+      >
+        <span aria-hidden="true">↗</span>
+        <span>Abrir loja</span>
+      </a>
+    </div>
+
     <div class="mt-auto border-t border-white/5 p-2.5">
       <div class="mb-1.5 flex items-center gap-2.5 rounded-[10px] border border-white/5 bg-white/[0.03] px-3 py-2.5">
         <span class="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-zinc-700 to-red-600 text-[11px] font-bold">
@@ -57,6 +70,7 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
+import { LOJA_INGRESSOS_URL } from '../config';
 import TrocarSenha from './TrocarSenha.vue';
 
 export default {
@@ -83,7 +97,7 @@ export default {
       return route.path.startsWith(path);
     }
 
-    return { auth, menu, ativo };
+    return { auth, menu, ativo, lojaUrl: LOJA_INGRESSOS_URL };
   },
 };
 </script>
