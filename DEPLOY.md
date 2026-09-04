@@ -17,7 +17,7 @@ https://demo.raulnikroyce.dev,https://ingressosbeco.raulnikroyce.dev
 
 Loja de ingressos (repo `frontend-beco-ingressos`): https://ingressosbeco.raulnikroyce.dev
 
-No build de produção, `VITE_API_URL` precisa apontar para a API no Render. Valor omitido deixa o painel falando com `localhost:3000`.
+No build de produção, `VITE_API_URL` deve apontar para a API no Render. Se a variável for omitida, o painel usa `https://api-beco-underground.onrender.com` como fallback seguro; `localhost` é usado somente pelo proxy do Vite em desenvolvimento.
 
 Build local de conferência.
 
