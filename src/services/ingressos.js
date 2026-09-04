@@ -20,6 +20,11 @@ export async function publicarVenda(eventoId, publicado = true) {
   return data;
 }
 
+export async function criarTokenPreview(eventoId) {
+  const { data } = await api.post(`/eventos/${eventoId}/ingressos/preview-token`);
+  return data.token;
+}
+
 export async function listarCustos(eventoId) {
   const { data } = await api.get(`/eventos/${eventoId}/custos`);
   return data;

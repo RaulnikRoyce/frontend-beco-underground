@@ -93,10 +93,10 @@ export default {
     }
 
     async function novaSenha(usuario) {
-      const senha = window.prompt(`Nova senha para ${usuario.email} (mín. 6 caracteres)`);
+      const senha = window.prompt(`Nova senha para ${usuario.email} (mín. 12 caracteres)`);
       if (senha === null) return;
-      if (senha.trim().length < 6) {
-        toast.mostrar('Senha deve ter no mínimo 6 caracteres', 'error');
+      if (senha.trim().length < 12) {
+        toast.mostrar('Senha deve ter no mínimo 12 caracteres', 'error');
         return;
       }
       try {

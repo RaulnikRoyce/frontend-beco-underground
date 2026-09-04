@@ -475,6 +475,7 @@ import {
   obterPrecificacao,
   atualizarConfigIngressos,
   publicarVenda,
+  criarTokenPreview,
   criarCusto,
   excluirCusto,
   criarLote,
@@ -816,8 +817,13 @@ export default {
       });
     }
 
-    function abrirPreview() {
-      window.open(`${linkLoja.value}?preview=1`, '_blank', 'noopener');
+    async function abrirPreview() {
+      try {
+        const token = await criarTokenPreview(props.eventoId);
+        window.open(`${linkLoja.value}?preview_token=${encodeURIComponent(token)}`, '_blank', 'noopener');
+      } catch (err) {
+        toast.mostrar(err.response?.data?.erro || 'Não foi possível abrir o preview.', 'error');
+      }
     }
 
     async function emitirCortesiaForm() {

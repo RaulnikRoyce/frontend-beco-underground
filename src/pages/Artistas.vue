@@ -64,8 +64,8 @@
           </span>
         </div>
         <p v-if="banda.descricao" class="mt-3 text-sm text-zinc-400">{{ banda.descricao }}</p>
-        <p v-if="banda.contato" class="mt-2 text-sm text-zinc-500">{{ banda.contato }}</p>
-        <p class="mt-2 font-mono text-sm font-semibold text-emerald-400">R$ {{ formatarMoeda(banda.cache_base) }}</p>
+        <p v-if="auth.isAdmin && banda.contato" class="mt-2 text-sm text-zinc-500">{{ banda.contato }}</p>
+        <p v-if="auth.isAdmin" class="mt-2 font-mono text-sm font-semibold text-emerald-400">R$ {{ formatarMoeda(banda.cache_base) }}</p>
       </article>
     </div>
 

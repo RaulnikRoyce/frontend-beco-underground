@@ -35,14 +35,14 @@
           />
         </label>
         <label class="mt-4 block" for="senha">
-          <span class="mb-2 block text-xs font-semibold text-zinc-400">Senha, no mínimo 6 caracteres</span>
+          <span class="mb-2 block text-xs font-semibold text-zinc-400">Senha, no mínimo 12 caracteres</span>
           <input
             id="senha"
             v-model="senha"
             type="password"
             autocomplete="new-password"
             class="field"
-            minlength="6"
+            minlength="12"
             required
           />
         </label>
@@ -54,7 +54,7 @@
             type="password"
             autocomplete="new-password"
             class="field"
-            minlength="6"
+            minlength="12"
             required
           />
         </label>

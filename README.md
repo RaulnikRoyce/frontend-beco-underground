@@ -50,7 +50,7 @@ Login local usa a conta criada com `npm run seed:admin` na API (valores no `.env
 
 Qualquer logado troca a própria senha no perfil (precisa da senha atual). O admin redefine a dos outros na Equipe e troca a própria só no perfil.
 
-Admin escala artistas, cadastra o catálogo e publica ingressos. Produtor vê tudo, cria eventos e só apaga os que criou.
+Admin escala artistas, cadastra o catálogo e publica ingressos. Produtor cria eventos e acessa somente os que criou.
 
 ## Qualidade
 

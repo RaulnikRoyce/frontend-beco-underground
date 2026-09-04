@@ -22,13 +22,13 @@
         />
       </label>
       <label class="block" :for="idNova">
-        <span class="mb-1 block text-[10px] font-semibold text-zinc-500">Nova senha, no mínimo 6 caracteres</span>
+        <span class="mb-1 block text-[10px] font-semibold text-zinc-500">Nova senha, no mínimo 12 caracteres</span>
         <input
           :id="idNova"
           v-model="senhaNova"
           type="password"
           autocomplete="new-password"
-          minlength="6"
+          minlength="12"
           class="field py-2"
           required
         />
@@ -57,8 +57,8 @@ export default {
     const idNova = `senha-nova-${sufixo}`;
 
     async function salvar() {
-      if (senhaNova.value.length < 6) {
-        toast.mostrar('Senha deve ter no mínimo 6 caracteres', 'error');
+      if (senhaNova.value.length < 12) {
+        toast.mostrar('Senha deve ter no mínimo 12 caracteres', 'error');
         return;
       }
 
