@@ -56,6 +56,7 @@
 import { onMounted, ref } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import { useToastStore } from '../stores/toast';
+import { mensagemDeErro } from '../lib/erros';
 import { listarUsuarios, alterarUsuario, excluirUsuario, redefinirSenha } from '../services/auth';
 import AppLayout from '../components/AppLayout.vue';
 import EmptyState from '../components/EmptyState.vue';
@@ -88,7 +89,7 @@ export default {
         usuarios.value = usuarios.value.map((item) => (item.id === atualizado.id ? atualizado : item));
         toast.mostrar(atualizado.ativo ? 'Conta ativada' : 'Conta bloqueada', 'success');
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Não foi possível alterar a conta', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Não foi possível alterar a conta'), 'error');
       }
     }
 
@@ -103,7 +104,7 @@ export default {
         await redefinirSenha(usuario.id, senha);
         toast.mostrar('Senha redefinida. Passe a nova senha para a pessoa.', 'success');
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Não foi possível redefinir a senha', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Não foi possível redefinir a senha'), 'error');
       }
     }
 
@@ -114,7 +115,7 @@ export default {
         usuarios.value = usuarios.value.filter((item) => item.id !== usuario.id);
         toast.mostrar('Usuário excluído', 'success');
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Não foi possível excluir', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Não foi possível excluir'), 'error');
       }
     }
 

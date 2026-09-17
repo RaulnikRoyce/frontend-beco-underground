@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { API_URL } from './config';
+import router from './router';
+import { useToastStore } from './stores/toast';
+import { useAuthStore } from './stores/auth';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -23,11 +26,11 @@ api.interceptors.response.use(
       && !window.location.pathname.startsWith('/cadastro')
       && !window.location.pathname.startsWith('/p/')
     ) {
-      localStorage.removeItem('token_beco');
-      localStorage.removeItem('perfil_beco');
-      localStorage.removeItem('email_beco');
-      localStorage.removeItem('usuario_id_beco');
-      window.location.href = '/login';
+      try {
+        useAuthStore().fazerLogout();
+        useToastStore().mostrar('Sessão expirada. Faça login de novo.', 'error');
+      } catch {}
+      router.push('/login');
     }
     return Promise.reject(error);
   }

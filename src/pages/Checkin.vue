@@ -27,6 +27,7 @@ import { computed, ref } from 'vue';
 import AppLayout from '../components/AppLayout.vue';
 import { checkin } from '../services/ingressos';
 import { useToastStore } from '../stores/toast';
+import { mensagemDeErro } from '../lib/erros';
 
 export default {
   components: { AppLayout },
@@ -53,7 +54,7 @@ export default {
           codigo.value = '';
         }
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Erro no check-in.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro no check-in.'), 'error');
       } finally {
         enviando.value = false;
       }

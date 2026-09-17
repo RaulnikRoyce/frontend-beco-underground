@@ -107,8 +107,9 @@ export default {
       if (auth.isAdmin) {
         try {
           financeiro.value = await obterFinanceiroDashboard();
-        } catch {
+        } catch (err) {
           financeiro.value = null;
+          painel.tratarErro(err, 'Não foi possível carregar o resumo financeiro');
         }
       }
     });

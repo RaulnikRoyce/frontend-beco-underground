@@ -64,8 +64,10 @@ export default {
     onMounted(async () => {
       try {
         pagina.value = await buscarPaginaBanda(route.params.token);
-      } catch {
-        erro.value = 'Link inválido ou expirado. Peça o endereço de novo para a produção.';
+      } catch (e) {
+        erro.value = e.response?.status === 404
+          ? 'Link inválido ou expirado. Peça o endereço de novo para a produção.'
+          : 'Não foi possível carregar agora. Tente de novo em instantes.';
       } finally {
         carregando.value = false;
       }

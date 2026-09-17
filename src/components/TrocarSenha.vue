@@ -43,6 +43,7 @@
 <script>
 import { ref } from 'vue';
 import { useToastStore } from '../stores/toast';
+import { mensagemDeErro } from '../lib/erros';
 import { trocarPropriaSenha } from '../services/auth';
 
 export default {
@@ -70,7 +71,7 @@ export default {
         senhaNova.value = '';
         aberto.value = false;
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Não foi possível trocar a senha', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Não foi possível trocar a senha'), 'error');
       } finally {
         enviando.value = false;
       }

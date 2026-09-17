@@ -72,7 +72,7 @@
       <section v-show="abaAtiva === 'lineup'" class="panel-card p-6 print:hidden">
         <div class="mb-4 flex items-center justify-between">
           <h2 class="section-title">Lineup</h2>
-          <span class="rounded-lg bg-red-500/10 px-3 py-1 font-mono text-xs text-red-400 print:hidden">
+          <span v-if="auth.isAdmin" class="rounded-lg bg-red-500/10 px-3 py-1 font-mono text-xs text-red-400 print:hidden">
             R$ {{ formatarMoeda(painel.custoDoEvento(evento.id)) }}
           </span>
         </div>
@@ -98,7 +98,7 @@
                 {{ item.nome }}
               </span>
               <span class="flex items-center gap-2">
-                <span class="font-mono text-xs text-red-500">R$ {{ formatarMoeda(item.cache) }}</span>
+                <span v-if="auth.isAdmin" class="font-mono text-xs text-red-500">R$ {{ formatarMoeda(item.cache) }}</span>
                 <button
                   v-if="auth.isAdmin"
                   class="btn-ghost text-red-400"

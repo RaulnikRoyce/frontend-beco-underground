@@ -469,6 +469,7 @@
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { LOJA_INGRESSOS_URL } from '../config';
 import { formatarMoeda } from '../lib/formatar';
+import { mensagemDeErro } from '../lib/erros';
 import { useToastStore } from '../stores/toast';
 import {
   obterResumoIngressos,
@@ -619,7 +620,7 @@ export default {
         if (props.admin) await carregarCompradores();
         await atualizarSimulador();
       } catch (err) {
-        erro.value = err.response?.data?.erro || 'Não foi possível carregar ingressos.';
+        erro.value = mensagemDeErro(err, 'Não foi possível carregar ingressos.');
       } finally {
         carregando.value = false;
         atualizando.value = false;
@@ -650,7 +651,7 @@ export default {
         if (!silencioso) toast.mostrar('Meta salva.', 'success');
         return true;
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Erro ao salvar meta.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro ao salvar meta.'), 'error');
         await carregar({ silencioso: true });
         return false;
       } finally {
@@ -671,7 +672,7 @@ export default {
         await carregar({ silencioso: true });
         toast.mostrar('Custo adicionado.', 'success');
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Erro ao adicionar custo.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro ao adicionar custo.'), 'error');
       }
     }
 
@@ -681,7 +682,7 @@ export default {
         await excluirCusto(props.eventoId, custo.id);
         await carregar({ silencioso: true });
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Erro ao remover custo.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro ao remover custo.'), 'error');
       }
     }
 
@@ -704,7 +705,7 @@ export default {
         await carregar({ silencioso: true });
         toast.mostrar('Lote criado.', 'success');
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Erro ao criar lote.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro ao criar lote.'), 'error');
       }
     }
 
@@ -740,7 +741,7 @@ export default {
         await carregar({ silencioso: true });
         toast.mostrar('Lote salvo.', 'success');
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Erro ao salvar lote.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro ao salvar lote.'), 'error');
       } finally {
         lote.salvando = false;
       }
@@ -753,7 +754,7 @@ export default {
         await carregar({ silencioso: true });
         toast.mostrar('Lote removido.', 'success');
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Erro ao remover lote.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro ao remover lote.'), 'error');
       }
     }
 
@@ -766,7 +767,7 @@ export default {
         await carregar({ silencioso: true });
         toast.mostrar('Lotes sugeridos criados.', 'success');
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Erro ao gerar lotes.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro ao gerar lotes.'), 'error');
       }
     }
 
@@ -785,7 +786,7 @@ export default {
         await carregar({ silencioso: true });
         toast.mostrar('Preço médio aplicado no primeiro lote.', 'success');
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Erro ao aplicar sugestão.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro ao aplicar sugestão.'), 'error');
       }
     }
 
@@ -796,7 +797,7 @@ export default {
         resumo.value.config = config;
         toast.mostrar(publicado ? 'Venda publicada.' : 'Venda em rascunho.', 'success');
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Erro ao publicar.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro ao publicar.'), 'error');
       }
     }
 
@@ -822,7 +823,7 @@ export default {
         const token = await criarTokenPreview(props.eventoId);
         window.open(`${linkLoja.value}?preview_token=${encodeURIComponent(token)}`, '_blank', 'noopener');
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Não foi possível abrir o preview.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Não foi possível abrir o preview.'), 'error');
       }
     }
 
@@ -836,7 +837,7 @@ export default {
         await carregar({ silencioso: true });
       } catch (err) {
         cortesiaEmitida.value = null;
-        toast.mostrar(err.response?.data?.erro || 'Erro na cortesia.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro na cortesia.'), 'error');
       }
     }
 
@@ -856,7 +857,7 @@ export default {
         await carregar({ silencioso: true });
       } catch (err) {
         portaEmitida.value = null;
-        toast.mostrar(err.response?.data?.erro || 'Erro na venda na porta.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro na venda na porta.'), 'error');
       }
     }
 
@@ -887,7 +888,7 @@ export default {
         formCupom.codigo = '';
         toast.mostrar('Cupom criado.', 'success');
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Erro ao criar cupom.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro ao criar cupom.'), 'error');
       }
     }
 
@@ -899,7 +900,7 @@ export default {
         secaoAberta.value = 'compradores';
         await carregar({ silencioso: true });
       } catch (err) {
-        toast.mostrar(err.response?.data?.erro || 'Erro ao cancelar pedido.', 'error');
+        toast.mostrar(mensagemDeErro(err, 'Erro ao cancelar pedido.'), 'error');
       }
     }
 

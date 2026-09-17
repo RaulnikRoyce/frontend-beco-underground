@@ -9,6 +9,7 @@ export default defineConfig({
     include: ['src/**/*.test.js']
   },
   server: {
+    port: 5174,
     watch: {
       ignored: ['**/logo-beco.png']
     },
