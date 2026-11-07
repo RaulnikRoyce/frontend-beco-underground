@@ -29,7 +29,9 @@ api.interceptors.response.use(
       try {
         useAuthStore().fazerLogout();
         useToastStore().mostrar('Sessão expirada. Faça login de novo.', 'error');
-      } catch {}
+      } catch {
+        ['token_beco', 'perfil_beco', 'email_beco', 'usuario_id_beco'].forEach((chave) => localStorage.removeItem(chave));
+      }
       router.push('/login');
     }
     return Promise.reject(error);
